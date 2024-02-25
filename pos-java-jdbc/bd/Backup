@@ -1,0 +1,96 @@
+-- Database: posjava
+
+--DROP DATABASE IF EXISTS posjava;
+
+CREATE DATABASE posjava
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Portuguese_Brazil.1252'
+    LC_CTYPE = 'Portuguese_Brazil.1252'
+    LOCALE_PROVIDER = 'libc'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1
+    IS_TEMPLATE = False;
+	
+CREATE TABLE userposjava(
+	id bigint not null,		
+	nameUser varchar(255) not null,
+	email varchar(255),
+	CONSTRAINT user_pk PRIMARY KEY (id)
+);
+
+CREATE SEQUENCE usersequence
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 922337203685477
+START 1;
+
+ALTER TABLE userposjava ALTER COLUMN id 
+SET DEFAULT NEXTVAL('usersequence'::regclass);
+
+
+
+INSERT INTO userposjava(nameUser,email)
+	VALUES ('Jack Reacher','jackReacher@gmail.com');
+
+SELECT * FROM userposjava;
+
+
+ALTER TABLE userposjava ADD UNIQUE (id);
+
+CREATE TABLE phoneuser(
+ 	id bigint not null,
+	numberUser varchar(255) not null,
+	userPerson bigint not null,
+	
+	CONSTRAINT idPhone PRIMARY KEY (id)
+);
+
+ALTER TABLE phoneuser ADD COLUMN phoneType varchar(255) NOT NULL;
+
+ALTER TABLE phoneuser ADD FOREIGN KEY (userPerson) REFERENCES userposjava(id);
+
+CREATE SEQUENCE user_phone_sequence
+INCREMENT 1
+MINVALUE 1
+MAXVALUE 922337203685477
+START 1;
+
+ALTER TABLE phoneuser ALTER COLUMN id 
+SET DEFAULT NEXTVAL('user_phone_sequence'::regclass);
+
+INSERT INTO phoneuser (numberUser,phoneType,userPerson)
+VALUES('(11) 98122222222','smarthphone',1);
+
+
+INSERT INTO userposjava (nameUser,email)
+VALUES ('Kaju lovers', 'loversKaju@gmail,com'),
+		('Kakyoin Shigaraki','kakyoin@gmail.com'),
+		('kevin wallace','wallKevin@gmail.com'),
+		('John Doe', 'johndoe@email.com'),
+  		('Jane Doe', 'janedoe@email.com'),
+  		('Michael Smith', 'michaelsmith@email.com'),
+  		('Sarah Jones', 'sarahjones@email.com'),
+  		('Robert Brown', 'robertbrown@email.com'),
+  		('Mary Johnson', 'maryjohnson@email.com'),
+  		('David Miller', 'davidmiller@email.com'),
+  		('Elizabeth Walker', 'elizabethwalker@email.com'),
+  		('William Taylor', 'williamtaylor@email.com'),
+  		('Patricia Moore', 'patriciamoore@email.com');
+		
+
+INSERT INTO phoneuser (numberUser,phoneType,userPerson)
+VALUES 	('+1 (555) 555-5555', 'Mobile',2),
+  		('+1 (555) 555-5556', 'Landline',3),
+  		('+1 (666) 666-6666', 'Mobile',4),
+  		('+1 (666) 666-6667', 'Landline',5),
+  		('+1 (777) 777-7777', 'Mobile',6),
+  		('+1 (777) 777-7778', 'Landline',7),
+  		('+44 (20) 7777 8888', 'Mobile',8),
+  		('+44 (20) 7777 8889', 'Landline',9),
+  		('+55 (11) 9999-9999', 'Mobile',10),
+  		('+55 (11) 9999-9998', 'Landline',11),
+  		('+55 (22) 8888-8888', 'Mobile',12),
+  		('+55 (22) 8888-8887', 'Landline',13),
+  		('+55 (33) 7777-7777', 'Mobile',14);
